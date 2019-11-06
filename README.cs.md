@@ -45,6 +45,9 @@ o různých teplotách je už samo o sobě téma pro zápočtovou práci.
 
 ### Detaily zadání
 
+*Poznámka: náseldující detaily jsou pouze předběžné, je možné že se cokoliv ještě změní,
+třeba kvůli optimalizaci, nebo kvůli zásahu cvičícího.*
+
 #### Parametry simulace
 
     food_growth_prob          - pravděpodobnost, se kterou na dlaždici vyroste jídlo
@@ -88,9 +91,6 @@ nebo od více rodičů.
 **********
 
 ### Detaily implementace
-
-*Poznámka: náseldující detaily jsou pouze předběžné, je možné že se cokoliv ještě změní,
-třeba kvůli optimalizaci, nebo naopak kvůli zjednodušení, ale to co je nahoře v zadání by se měnit nemělo.*
 
 #### Mřížka
   
