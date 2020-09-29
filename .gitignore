@@ -4,3 +4,12 @@
 *.ptx
 *.cubin
 *.fatbin
+*.hint
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+todo.txt
+brains/
+simulations/
+x64/
