@@ -50,14 +50,19 @@ třeba kvůli optimalizaci, nebo kvůli zásahu cvičícího.*
 
 #### Parametry simulace
 
-    food_growth_prob          - pravděpodobnost, se kterou na dlaždici vyroste jídlo
-    movement_cost             - množství energie, kterou mravenec zaplatí za 1 pohyb
-    heating_amount            - o kolik mraveneci stoupne teplota z 1 energie
-    energy_death_th           - práh energie, který mravenec nesmí překročit aby přežil
-    heat_death_th             - práh tělesného tepla, který mravenec nesmí překročit aby přežil
-    ambient_heat              - množství tepla, které má dlaždice po tom co na ní vyroste jídlo
-    egg_laying_th             - minimální množství energie, kterou musí mravenec dát vajíčku
-    egg_growth_prob           - pravděpodobnost, se kterou vajíčko vyroste o 1
+    food_growth_speed:      - pravděpodobnost, že na dlaždici povyroste jídlo
+    food_growth_step:       - o kolik jídlo povyroste
+    food_growth_max:        - maximální energie kterou jídlo může mít
+    movement_cost:          - množství energie, které mravenec spálí na 1 pohyb
+    heating_amount:         - množství tepla, které mravenec vyrobí z 1 energie
+    energy_death_th:        - práh energie, pod který když se energie mravence dostane, tak mravenec zemře
+    temp_death_th:          - práh teploty, pod který když se teplota mravence dostane, tak mravenec zemře
+    ambient_temp:           - okolní teplota, dlaždice sousedící s okrajem sousedí s virtuálními dlaždicemi o této teplotě
+    egg_laying_th:          - kolik energie musí mravenec investovat do vajíčka, aby se provedlo jeho položení
+    egg_growth:             - pravděpodobnost, že v 1 kroku vajíčko povyroste o 1
+    ground_conductivity:    - tepelná vodivost podlahy
+    wall_conductivity:      - tepelná vodivost překážky
+    ant_conductivity:       - tepelná vodivost mravence
 
 #### Život mravence
 
@@ -138,22 +143,22 @@ V následující tabulce
 
 | IR | Význam
 |:--:|-------
-| >  | `memPtr++;`
-| <  | `memPtr–-;`
-| +  | `dynmem[memPtr]++;`
-| -  | `dynmem[memPtr]--;`
+| >  | `memPtr++`
+| <  | `memPtr–-`
+| +  | `dynmem[memPtr]++`
+| -  | `dynmem[memPtr]--`
 | [  | `while (dynmem[memPtr] > 0) {`
 | ]  | `}`
-| #  | `dynmem[memPtr] += ;`
-| =  | `dynmem[memPtr] -= dynmem[mod(memPtr - 1, DYNMEM_SIZE)];`
-| ^  | `dynmem[memPtr] <<= 1;`
-| v  | `dynmem[memPtr] >>= 1;`
-| ! [<sup>(2)</sup>] | Pohyb mravence. Podle `dynmem[memPtr - 1]` se posune vpřed, otočí doprava nebo doleva, a úspěch se zapíše do `dynmem[memPtr]`.
-| ? [<sup>(2)</sup>] | Do parametru se zapíše *feromonová* hodnota pole před mravencem, navíc | 0x80 pokud je tam překážka, vajíčko nebo mravenec.
-| @ [<sup>(2)</sup>] | Mravenec se pokusí sníst, co je na dlaždici před ním.
-| % [<sup>(2)</sup>] | Mravenec před sebe položí vajíčko, a předá mu `dynmem[memPtr - 1]` energie. Pokud to je méně než `egg_laying_th`, tak položí překážku.
-| *  | Mravenec použije `dynmem[memPtr - 1]` energie na výrobu tepla, do `dynmem[memPtr]` se zapíše hodnota teploty po zahřátí.
-| &  | Do `dynmem[memPtr]` se zapíše teplota v okolí mravence.
+| &  | `dynmem[memPtr] += dynmem[memPtr - 1]`
+| =  | `dynmem[memPtr] -= dynmem[memPtr - 1]`
+| *  | `dynmem[memPtr] <<= 1`
+| /  | `dynmem[memPtr] >>= 1`
+| ! [<sup>(2)</sup>](vajicko) | Pohyb mravence. Podle `dynmem[memPtr]` se posune vpřed, otočí doprava nebo doleva, a úspěch se zapíše do `dynmem[memPtr]`.
+| ? [<sup>(2)</sup>](vajicko) | Do parametru se zapíše *feromonová* hodnota pole před mravencem.
+| $ [<sup>(2)</sup>](vajicko) | Mravenec se pokusí sníst, co je na dlaždici před ním. Pokud je tam jiný mravenec nebo vajíčko, sebere mu část energie úměrnou jeho energii.
+| . [<sup>(2)</sup>](vajicko) | Mravenec před sebe položí vajíčko, a předá mu `dynmem[memPtr - 1]` energie. Pokud to je méně než `egg_laying_th`, tak položí překážku.
+| %  | Mravenec použije 1 energie na výrobu tepla.
+| @  | Do `dynmem[memPtr]` se zapíše teplota v mravence.
 
 <a name="vajicko">**(2):**</a> Nefunguje ve stádiu vajíčka.
 
